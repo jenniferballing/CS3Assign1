@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Board.h"
+#include "Queue.h"
 
 using namespace std;
 
@@ -7,19 +8,31 @@ using namespace std;
 A00890700
 CS 3, Assignment 1: Solve the number cubes*/
 
+
 int main(){
 
-	Board testBoard;
-	int num = 9;
+	//Board creation and manipulation Test: 
+	//working
+	Board inputOne;// , inputTwo, inputThree, inputFourRandom;
+	inputOne.board[0][0] = 1;
+	inputOne.board[0][1] = 2;
+	inputOne.board[0][2] = 3;
+	inputOne.board[1][0] = 6;
+	inputOne.board[1][1] = 5;
+	inputOne.board[1][2] = 4;
+	inputOne.board[2][0] = 9;
+	inputOne.board[2][1] = 7;
+	inputOne.board[2][2] = 8;
 	
-	for (int i = 0; i < 3; i++){
-		for (int j = 0; j < 3; j++){
-			testBoard.board[i][j] = num;
-			num--;
-		}
-	}
-	string s = testBoard.toString();
-	cout << s;
+	cout<< inputOne.toString();
+
+	//Queue creation and manipulation Test:
+
+	Queue testQueue;
+	testQueue.Insert(inputOne);
+
+
+	
 	
 
 	return 0;
