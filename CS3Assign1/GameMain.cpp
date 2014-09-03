@@ -27,10 +27,29 @@ int main(){
 	cout<< inputOne.toString();
 
 	//Queue creation and manipulation Test:
-
+	//Working
 	Queue testQueue;
+	
+
+	//Game Logic
+	//Insert initial state into queue.
 	testQueue.Insert(inputOne);
 
+	//Now delete this state and insert the 12 substates
+	testQueue.Delete(inputOne);
+	
+	Board east(inputOne);
+	east.rotateEast(0);
+	testQueue.Insert(east);
+	Board west(inputOne);
+	west.rotateWest(0);
+	testQueue.Insert(west);
+	Board north(inputOne);
+	north.rotateNorth(0);
+	testQueue.Insert(north);
+	Board south(inputOne);
+	south.rotateSouth(0);
+	testQueue.Insert(south);
 
 	
 	
