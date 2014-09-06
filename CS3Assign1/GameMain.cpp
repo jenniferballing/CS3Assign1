@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Board.h"
 #include "Queue.h"
+#include "BoardObject.h"
 
 using namespace std;
 
@@ -13,7 +14,7 @@ Board inputBoardOne();
 Board inputBoardTwo();
 Board inputBoardThree();
 Board inputRandomBoard();
-void rotateBoard(Board, Queue);
+void rotateBoard(Queue);
 void gameLogic(Queue);
 
 int main(){
@@ -24,8 +25,8 @@ int main(){
 	Queue myQueue;
 	
 	myQueue.Insert(inputOne);
-	rotateBoard(inputOne, myQueue);
-	gameLogic(myQueue);
+	rotateBoard(myQueue);
+	//gameLogic(myQueue);
 	
 	
 
@@ -97,60 +98,9 @@ Board inputBoardThree()
 	return b;
 }
 
-void rotateBoard(Board b, Queue myQueue)
+void rotateBoard(Queue myQueue)
 {
-	//Create temp board
-	Board temp = b;
-	
-	Board north0(temp), south0(temp), east0(temp), west0(temp), north1(temp), south1(temp), east1(temp), west1(temp), north2(temp), south2(temp), east2(temp), west2(temp);
-
-	Board northArr[3] = { north0, north1, north2 };
-	Board southArr[3] = { south0, south1, south2 };
-	Board eastArr[3] = { east0, east1, east2 };
-	Board westArr[3] = { west0, west1, west2 };
-	int num = 0;
-	for (int i = 0; i < 3; i++)
-	{
-		northArr[i].rotateNorth(i);
-		myQueue.Insert(northArr[i]);
-		cout << num << endl;
-		cout << northArr[i].toString() << endl;
-		num++;
-	}
-	for (int i = 0; i < 3; i++)
-	{
-		southArr[i].rotateSouth(i);
-		myQueue.Insert(southArr[i]);
-		cout << num << endl;
-		cout << southArr[i].toString() << endl;
-		num++;
-	}
-	for (int i = 0; i < 3; i++)
-	{
-		eastArr[i].rotateEast(i);
-		myQueue.Insert(eastArr[i]);
-		cout << num << endl;
-		cout << eastArr[i].toString() << endl;
-		num++;
-	}
-	for (int i = 0; i < 3; i++)
-	{
-		westArr[i].rotateWest(i);
-		myQueue.Insert(westArr[i]);
-		cout << num << endl;
-		cout << westArr[i].toString() << endl;
-		num++;
-	}
-	//Remove initial board
-	//myQueue.Delete();
-}
-
-void gameLogic(Queue myQueue)
-{
-	//delete first node
-	//myQueue.Delete();
-
-	//Goal
+	//Goal board
 	Board winningBoard;
 	int count = 1;
 	for (int i = 0; i < 3; i++)
@@ -161,20 +111,76 @@ void gameLogic(Queue myQueue)
 			count++;
 		}
 	}
-	bool win = false;
 
-	//get next and split to twelve more
-	while(!win)
+
+	bool win = false;
+	int seqCounter = 0;
+	while (!win)
 	{
-		myQueue.Delete();
 		Board b = myQueue.head->gameBoard;
-		rotateBoard(b, myQueue);
+		myQueue.Delete();
+		BoardObject obj;
+		Board n0(b), s0(b), e0(b), w0(b), n1(b), s1(b), e1(b), w1(b), n2(b), s2(b), e2(b), w2(b);
+
+		Board nArr[3] = { n0, n1, n2 };
+		Board sArr[3] = { s0, s1, s2 };
+		Board eArr[3] = { e0, e1, e2 };
+		Board wArr[3] = { w0, w1, w2 };
+		int num = 0;
+		for (int i = 0; i < 3; i++)
+		{
+			nArr[i].rotateNorth(i);
+			myQueue.Insert(nArr[i]);
+			obj.setBoard(nArr[i]);
+			obj.setDir("North");
+			obj.setRowCol("Col" + to_string(i));
+			obj.setSequence(seqCounter);
+			obj.printObj();
+			//cout << nArr[i].toString() << endl;
+			seqCounter++;
+
+			sArr[i].rotateSouth(i);
+			myQueue.Insert(sArr[i]);
+			obj.setBoard(nArr[i]);
+			obj.setDir("South");
+			obj.setRowCol("Col" + to_string(i));
+			obj.setSequence(seqCounter);
+			obj.printObj();
+			//cout << sArr[i].toString() << endl;
+			seqCounter++;
+
+			eArr[i].rotateEast(i);
+			myQueue.Insert(eArr[i]);
+			obj.setBoard(nArr[i]);
+			obj.setDir("East");
+			obj.setRowCol("Row" + to_string(i));
+			obj.setSequence(seqCounter);
+			obj.printObj();
+			//cout << eArr[i].toString() << endl;
+			seqCounter++;
+
+			wArr[i].rotateWest(i);
+			myQueue.Insert(wArr[i]);
+			obj.setBoard(nArr[i]);
+			obj.setDir("West");
+			obj.setRowCol("Row" + to_string(i));
+			obj.setSequence(seqCounter);
+			obj.printObj();
+			//cout << wArr[i].toString() << endl;
+			seqCounter++;
+
+		}
 		if (myQueue.head->gameBoard == winningBoard)
 		{
-			
-			cout<< myQueue.head->gameBoard.toString()<<endl;
+
+			cout << myQueue.head->gameBoard.toString() << endl;
 			cout << "You win! YAY!" << endl;
 			win = true;
 		}
-	}
+	}	
+}
+
+void gameLogic(Queue myQueue)
+{
+	
 }
