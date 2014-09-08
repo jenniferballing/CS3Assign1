@@ -112,8 +112,33 @@ void rotateBoard(Queue myQueue)
 		}
 	}
 
-
+	int currentState = 0;
+	string prevLocation = 0;
+	
 	bool win = false;
+	while (!win)
+	{
+		BoardObject obj;
+		//get first obj
+		obj = myQueue.head->boardObj;
+		//delete it from queue
+		myQueue.Delete();
+		//get the prev location
+		prevLocation = obj.getLocation();
+
+		obj.setSequence = currentState;
+		
+		
+		currentState++;
+		
+		
+	}
+
+	
+
+
+
+	
 	int seqCounter = 0;
 	while (!win)
 	{
@@ -134,6 +159,7 @@ void rotateBoard(Queue myQueue)
 			obj.setBoard(nArr[i]);
 			obj.setDir("North");
 			obj.setRowCol("Col" + to_string(i));
+			obj.setTier()
 			obj.setSequence(seqCounter);
 			obj.printObj();
 			//cout << nArr[i].toString() << endl;
