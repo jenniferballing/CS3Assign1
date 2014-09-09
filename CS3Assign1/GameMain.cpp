@@ -113,24 +113,37 @@ void rotateBoard(Queue myQueue)
 	}
 
 	int currentState = 0;
+	int prevState = 0;
 	string prevLocation = 0;
 	
 	bool win = false;
 	while (!win)
 	{
-		BoardObject obj;
+		BoardObject parentObj;
 		//get first obj
-		obj = myQueue.head->boardObj;
+		parentObj = myQueue.head->boardObj;
 		//delete it from queue
 		myQueue.Delete();
 		//get the prev location
-		prevLocation = obj.getLocation();
+		prevLocation = parentObj.getLocation();
+		Board parentBoard = parentObj.getBoard();
 
-		obj.setSequence = currentState;
+		//create new Object
+		BoardObject childObj;
+		childObj.setSequence = currentState;
+		childObj.setTier = prevState;
+
+		childObj.setBoard = parentObj.getBoard();
+		childObj
+
+		temp.rotateNorth(0);
+
+
 		
+
+
 		
 		currentState++;
-		
 		
 	}
 
