@@ -16,6 +16,7 @@ Board inputBoardThree();
 Board inputRandomBoard();
 void rotateBoard(Queue);
 void gameLogic(Queue);
+Board* returnBoards(Queue, Board);
 
 int main(){
 
@@ -42,6 +43,42 @@ int main(){
 	
 	return 0;
 }
+
+Board* returnBoards(Queue myQueue, Board b)
+{
+	Board temp;
+	temp = b;
+	Board arr [12];
+	int num = 0;
+
+	for (int i = 0; i < 3; i++)
+	{
+		temp.rotateNorth(i);
+		arr[num] = temp;
+		temp = b;
+		num++;
+
+		temp.rotateNorth(i);
+		arr[num] = temp;
+		temp = b;
+		num++;
+
+		temp.rotateNorth(i);
+		arr[num] = temp;
+		temp = b;
+		num++;
+
+		temp.rotateNorth(i);
+		arr[num] = temp;
+		temp = b;
+		num++;
+	}
+	return arr;
+}
+
+
+
+
 Board inputBoardOne()
 {
 	Board b;
@@ -120,24 +157,39 @@ void rotateBoard(Queue myQueue)
 		}
 	}
 
+	
+
 	int currentState = 0;
 	int prevState = 0;
 	string prevLocation = 0;
 	int num = 0;
 	
 	bool win = false;
+	int prev = 0;
 	while (!win)
 	{
 		//get first obj
 		BoardObject parentObj;		
 		parentObj = myQueue.head->boardObj;
+		Board parentBoard = parentObj.getBoard();
 		
 		//delete it from queue
 		myQueue.Delete();
 		
-		//get the prev location
-		prevLocation = parentObj.getLocation();
-		Board parentBoard = parentObj.getBoard();
+		//Get the rotations
+		Board *boardArr = returnBoards(myQueue, parentBoard);
+
+		
+		for (int i = 0; i < 12; i++)
+		{
+			BoardObject childObj;
+			childObj.setBoard(boardArr[i]);
+			childObj.setTier(prev);
+		}
+		prev++;
+
+
+
 
 		//create new Object
 		BoardObject childObj;
@@ -145,33 +197,49 @@ void rotateBoard(Queue myQueue)
 		//Set the current state
 		childObj.setSequence(currentState);
 
+
+		//get the prev location
+		prevLocation = parentObj.getLocation();
+		//Board parentBoard = parentObj.getBoard();
+
+
 		//Set the Previous state
 		//childObj.setTier(prevState);
+
+
 
 
 		//Set the Board	
 		Board childBoard = parentBoard;
 			
-		childBoard.rotateNorth(num);
-		childObj.setBoard(childBoard);
+		for (int i = 0; i < 3; i++)
+		{
+			childBoard.rotateNorth(num);
+			childObj.setBoard(childBoard);
+			
+			string loc;
+			if (parentObj.getLocation() != " ")
+			{
+				loc = " North Col" + to_string(0) + parentObj.getLocation();
+			}
+			else
+			{
+				loc = " North Col" + to_string(0);
+			}
+		}
+		
+		
 
 		//Set the location
-		string loc;
-		if (parentObj.getLocation() != " ")
-		{
-			loc = " North Col" + to_string(0) + parentObj.getLocation();
-		}
-		else
-		{
-			loc = " North Col" + to_string(0);
-		}
+		
 
 		currentState++;
 
 		if (myQueue.head->boardObj.getBoard() == winningBoard)
 		{
+			Board board = myQueue.head->boardObj.getBoard();
 
-			cout << myQueue.head->boardObj.getBoard.toString() << endl;
+			cout << board.toString() << endl;
 			cout << "You win! YAY!" << endl;
 			win = true;
 			return;

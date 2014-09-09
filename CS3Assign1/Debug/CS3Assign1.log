@@ -1,19 +1,16 @@
-﻿Build started 9/9/2014 12:58:25 PM.
+﻿Build started 9/9/2014 1:02:47 PM.
      1>Project "C:\Users\jensbaby\Documents\Visual Studio 2013\Projects\CS3Assign1\CS3Assign1\CS3Assign1.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt BoardObject.cpp GameMain.cpp Queue.cpp
          GameMain.cpp
-     1>c:\users\jensbaby\documents\visual studio 2013\projects\cs3assign1\cs3assign1\gamemain.cpp(174): error C2228: left of '.toString' must have class/struct/union
          BoardObject.cpp
      1>c:\users\jensbaby\documents\visual studio 2013\projects\cs3assign1\cs3assign1\queue.h(15): error C2146: syntax error : missing ';' before identifier 'boardObj'
      1>c:\users\jensbaby\documents\visual studio 2013\projects\cs3assign1\cs3assign1\queue.h(15): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
      1>c:\users\jensbaby\documents\visual studio 2013\projects\cs3assign1\cs3assign1\queue.h(26): error C2061: syntax error : identifier 'BoardObject'
          Generating Code...
-         Compiling...
-         Queue.cpp
-         Generating Code...
+     1>cl : Command line warning D9028: minimal rebuild failure, reverting to normal build
      1>Done Building Project "C:\Users\jensbaby\Documents\Visual Studio 2013\Projects\CS3Assign1\CS3Assign1\CS3Assign1.vcxproj" (Build target(s)) -- FAILED.
 
 Build FAILED.
 
-Time Elapsed 00:00:00.94
+Time Elapsed 00:00:00.75
