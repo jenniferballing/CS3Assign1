@@ -134,7 +134,7 @@ void rotateBoard(Queue myQueue)
 		childObj.setTier = prevState;
 
 		childObj.setBoard = parentObj.getBoard();
-		childObj
+		childObj   
 
 		temp.rotateNorth(0);
 
