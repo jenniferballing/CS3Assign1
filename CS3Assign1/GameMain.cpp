@@ -22,10 +22,14 @@ int main(){
 	
 	Board inputOne;
 	inputOne = inputBoardOne();
+	BoardObject obj;
+	obj.setBoard(inputOne);
 	Queue myQueue;
-	
-	myQueue.Insert(inputOne);
 	rotateBoard(myQueue);
+
+	
+	//myQueue.Insert(inputOne);
+	//rotateBoard(myQueue);
 	//gameLogic(myQueue);
 	
 	
@@ -98,6 +102,10 @@ Board inputBoardThree()
 	return b;
 }
 
+
+
+
+
 void rotateBoard(Queue myQueue)
 {
 	//Goal board
@@ -115,44 +123,68 @@ void rotateBoard(Queue myQueue)
 	int currentState = 0;
 	int prevState = 0;
 	string prevLocation = 0;
+	int num = 0;
 	
 	bool win = false;
 	while (!win)
 	{
-		BoardObject parentObj;
 		//get first obj
+		BoardObject parentObj;		
 		parentObj = myQueue.head->boardObj;
+		
 		//delete it from queue
 		myQueue.Delete();
+		
 		//get the prev location
 		prevLocation = parentObj.getLocation();
 		Board parentBoard = parentObj.getBoard();
 
 		//create new Object
 		BoardObject childObj;
-		childObj.setSequence = currentState;
-		childObj.setTier = prevState;
+	
+		//Set the current state
+		childObj.setSequence(currentState);
 
-		childObj.setBoard = parentObj.getBoard();
-		childObj   
-
-		temp.rotateNorth(0);
-
-
-		
+		//Set the Previous state
+		//childObj.setTier(prevState);
 
 
-		
+		//Set the Board	
+		Board childBoard = parentBoard;
+			
+		childBoard.rotateNorth(num);
+		childObj.setBoard(childBoard);
+
+		//Set the location
+		string loc;
+		if (parentObj.getLocation() != " ")
+		{
+			loc = " North Col" + to_string(0) + parentObj.getLocation();
+		}
+		else
+		{
+			loc = " North Col" + to_string(0);
+		}
+
 		currentState++;
-		
+
+		if (myQueue.head->boardObj.getBoard() == winningBoard)
+		{
+
+			cout << myQueue.head->boardObj.getBoard.toString() << endl;
+			cout << "You win! YAY!" << endl;
+			win = true;
+			return;
+		}
 	}
+	
 
 	
 
 
 
 	
-	int seqCounter = 0;
+	/*int seqCounter = 0;
 	while (!win)
 	{
 		Board b = myQueue.head->gameBoard;
@@ -209,14 +241,8 @@ void rotateBoard(Queue myQueue)
 			seqCounter++;
 
 		}
-		if (myQueue.head->gameBoard == winningBoard)
-		{
-
-			cout << myQueue.head->gameBoard.toString() << endl;
-			cout << "You win! YAY!" << endl;
-			win = true;
-		}
-	}	
+		
+	}*/	
 }
 
 void gameLogic(Queue myQueue)
