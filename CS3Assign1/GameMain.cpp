@@ -14,70 +14,58 @@ Board inputBoardOne();
 Board inputBoardTwo();
 Board inputBoardThree();
 Board inputRandomBoard();
-void rotateBoard(Queue);
 void gameLogic(Queue);
-Board* returnBoards(Queue, Board);
+BoardObject* returnBoards(Queue, Board);
 
 int main(){
 
-	
+	BoardObject obj;
 	Board inputOne;
 	inputOne = inputBoardOne();
-	BoardObject obj;
 	obj.setBoard(inputOne);
+	
 	Queue myQueue;
-	rotateBoard(myQueue);
-
-	
-	//myQueue.Insert(inputOne);
-	//rotateBoard(myQueue);
-	//gameLogic(myQueue);
-	
-	
-
-	//Queue creation and manipulation Test:
-	//Working
-	Queue testQueue;
-	
-
+	myQueue.Insert(obj);
+	gameLogic(myQueue);
 	
 	return 0;
 }
 
-Board* returnBoards(Queue myQueue, Board b)
+BoardObject* returnBoards(Queue myQueue, Board b)
 {
 	Board temp;
 	temp = b;
-	Board arr [12];
+	BoardObject arr [12];
 	int num = 0;
 
 	for (int i = 0; i < 3; i++)
 	{
 		temp.rotateNorth(i);
-		arr[num] = temp;
+		arr[num].setBoard(temp);
+		arr[num].setLocation("North Col " + to_string(i));
 		temp = b;
 		num++;
 
-		temp.rotateNorth(i);
-		arr[num] = temp;
+		temp.rotateSouth(i);
+		arr[num].setBoard(temp);
+		arr[num].setLocation("South Col" + to_string(i));
 		temp = b;
 		num++;
 
-		temp.rotateNorth(i);
-		arr[num] = temp;
+		temp.rotateEast(i);
+		arr[num].setBoard(temp);
+		arr[num].setLocation("East Row" + to_string(i));
 		temp = b;
 		num++;
 
-		temp.rotateNorth(i);
-		arr[num] = temp;
+		temp.rotateWest(i);
+		arr[num].setBoard(temp);
+		arr[num].setLocation("West Row" + to_string(i));
 		temp = b;
 		num++;
 	}
 	return arr;
 }
-
-
-
 
 Board inputBoardOne()
 {
@@ -139,11 +127,7 @@ Board inputBoardThree()
 	return b;
 }
 
-
-
-
-
-void rotateBoard(Queue myQueue)
+void gameLogic(Queue myQueue)
 {
 	//Goal board
 	Board winningBoard;
@@ -161,7 +145,6 @@ void rotateBoard(Queue myQueue)
 
 	int currentState = 0;
 	int prevState = 0;
-	string prevLocation = 0;
 	int num = 0;
 	
 	bool win = false;
@@ -172,70 +155,8 @@ void rotateBoard(Queue myQueue)
 		BoardObject parentObj;		
 		parentObj = myQueue.head->boardObj;
 		Board parentBoard = parentObj.getBoard();
-		
-		//delete it from queue
-		myQueue.Delete();
-		
-		//Get the rotations
-		Board *boardArr = returnBoards(myQueue, parentBoard);
 
-		
-		for (int i = 0; i < 12; i++)
-		{
-			BoardObject childObj;
-			childObj.setBoard(boardArr[i]);
-			childObj.setTier(prev);
-		}
-		prev++;
-
-
-
-
-		//create new Object
-		BoardObject childObj;
-	
-		//Set the current state
-		childObj.setSequence(currentState);
-
-
-		//get the prev location
-		prevLocation = parentObj.getLocation();
-		//Board parentBoard = parentObj.getBoard();
-
-
-		//Set the Previous state
-		//childObj.setTier(prevState);
-
-
-
-
-		//Set the Board	
-		Board childBoard = parentBoard;
-			
-		for (int i = 0; i < 3; i++)
-		{
-			childBoard.rotateNorth(num);
-			childObj.setBoard(childBoard);
-			
-			string loc;
-			if (parentObj.getLocation() != " ")
-			{
-				loc = " North Col" + to_string(0) + parentObj.getLocation();
-			}
-			else
-			{
-				loc = " North Col" + to_string(0);
-			}
-		}
-		
-		
-
-		//Set the location
-		
-
-		currentState++;
-
-		if (myQueue.head->boardObj.getBoard() == winningBoard)
+		if (parentBoard == winningBoard)
 		{
 			Board board = myQueue.head->boardObj.getBoard();
 
@@ -244,76 +165,37 @@ void rotateBoard(Queue myQueue)
 			win = true;
 			return;
 		}
-	}
-	
-
-	
-
-
-
-	
-	/*int seqCounter = 0;
-	while (!win)
-	{
-		Board b = myQueue.head->gameBoard;
-		myQueue.Delete();
-		BoardObject obj;
-		Board n0(b), s0(b), e0(b), w0(b), n1(b), s1(b), e1(b), w1(b), n2(b), s2(b), e2(b), w2(b);
-
-		Board nArr[3] = { n0, n1, n2 };
-		Board sArr[3] = { s0, s1, s2 };
-		Board eArr[3] = { e0, e1, e2 };
-		Board wArr[3] = { w0, w1, w2 };
-		int num = 0;
-		for (int i = 0; i < 3; i++)
-		{
-			nArr[i].rotateNorth(i);
-			myQueue.Insert(nArr[i]);
-			obj.setBoard(nArr[i]);
-			obj.setDir("North");
-			obj.setRowCol("Col" + to_string(i));
-			obj.setTier()
-			obj.setSequence(seqCounter);
-			obj.printObj();
-			//cout << nArr[i].toString() << endl;
-			seqCounter++;
-
-			sArr[i].rotateSouth(i);
-			myQueue.Insert(sArr[i]);
-			obj.setBoard(nArr[i]);
-			obj.setDir("South");
-			obj.setRowCol("Col" + to_string(i));
-			obj.setSequence(seqCounter);
-			obj.printObj();
-			//cout << sArr[i].toString() << endl;
-			seqCounter++;
-
-			eArr[i].rotateEast(i);
-			myQueue.Insert(eArr[i]);
-			obj.setBoard(nArr[i]);
-			obj.setDir("East");
-			obj.setRowCol("Row" + to_string(i));
-			obj.setSequence(seqCounter);
-			obj.printObj();
-			//cout << eArr[i].toString() << endl;
-			seqCounter++;
-
-			wArr[i].rotateWest(i);
-			myQueue.Insert(wArr[i]);
-			obj.setBoard(nArr[i]);
-			obj.setDir("West");
-			obj.setRowCol("Row" + to_string(i));
-			obj.setSequence(seqCounter);
-			obj.printObj();
-			//cout << wArr[i].toString() << endl;
-			seqCounter++;
-
-		}
 		
-	}*/	
+		//delete it from queue
+		myQueue.Delete();
+		
+		//Get the rotations
+		BoardObject *boardObjArr = returnBoards(myQueue, parentBoard);
+
+		
+		
+
+		
+		for (int i = 0; i < 12; i++)
+		{
+			Board *childBoard = &boardObjArr[i].getBoard();
+			
+			
+			BoardObject childObj;
+			childObj.setBoard(*childBoard);
+
+			//childObj.setBoard(childBoard);
+			childObj.setTier(prev);
+			childObj.setSequence(currentState);
+			
+			string prevLocation = parentObj.getLocation();
+			string *currentMove = &boardObjArr[i].getLocation(); 			
+			childObj.setLocation(*currentMove + " " + prevLocation);
+			childObj.printObj();
+			
+			currentState++;
+		}prev++;
+	}
 }
 
-void gameLogic(Queue myQueue)
-{
-	
-}
+
