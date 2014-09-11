@@ -10,6 +10,7 @@ A00890700
 CS 3, Assignment 1: Solve the number cubes*/
 
 //Functions that return the appropriate starting boards
+Board inputBoards(int boardNumber);
 Board inputBoardOne();
 Board inputBoardTwo();
 Board inputBoardThree();
@@ -20,9 +21,10 @@ BoardObject* returnBoards(Queue, Board);
 int main(){
 
 	BoardObject obj;
-	Board inputOne;
-	inputOne = inputBoardOne();
-	obj.setBoard(inputOne);
+	
+	Board inputOne, inputTwo, inputThree, inputFour;
+	inputFour = inputBoards(4);
+	obj.setBoard(inputFour);
 	
 	Queue myQueue;
 	myQueue.Insert(obj);
@@ -31,11 +33,73 @@ int main(){
 	return 0;
 }
 
+Board inputBoards(int boardNumber)
+{
+	int arr[9];
+	if (boardNumber == 1)
+	{		
+		
+
+	}
+	else if (boardNumber == 2)
+	{
+		arr[0] = 1;
+		arr[1] = 8;
+		arr[2] = 3;
+		arr[3] = 5;
+		arr[4] = 2;
+		arr[5] = 4;
+		arr[6] = 7;
+		arr[7] = 6;
+		arr[8] = 9;
+	}
+	else if (boardNumber == 3)
+	{
+		arr[0] = 6;
+		arr[1] = 7;
+		arr[2] = 2;
+		arr[3] = 1;
+		arr[4] = 5;
+		arr[5] = 9;
+		arr[6] = 3;
+		arr[7] = 4;
+		arr[8] = 8;
+	}
+	else if (boardNumber == 4)
+	{
+		Board b;
+		int num = 0;
+		b.makeBoard(2);
+		for (int i = 0; i < 3; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				arr[num] = b.board[i][j];
+				num++;
+			}
+		}
+	}
+	
+	int number = 0;
+	
+	//Two dimentional array to set initial values in board
+	Board board;
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			board.board[i][j] = arr[number];
+			number++;
+		}
+	}
+	return board;
+}
+
 BoardObject* returnBoards(Queue myQueue, Board b)
 {
 	Board temp;
 	temp = b;
-	BoardObject *arr = new BoardObject [12];//BoardObject *arr = new BoardObject[12];
+	BoardObject *arr = new BoardObject[12];//BoardObject *arr = new BoardObject[12];
 	int num = 0;
 
 	for (int i = 0; i < 3; i++)
@@ -67,66 +131,6 @@ BoardObject* returnBoards(Queue myQueue, Board b)
 	return arr;
 }
 
-Board inputBoardOne()
-{
-	Board b;
-	
-	//One dimentional array with the values in the initial order
-	int arr[9] = { 1, 2, 3, 6, 4, 5, 9, 7, 8 };	
-	int num = 0;
-	
-	//Two dimentional array to set initial values in board
-	for (int i = 0; i < 3; i++)
-	{
-		for (int j = 0; j < 3; j++)
-		{
-			b.board[i][j] = arr[num];
-			num++;
-		}
-	}
-	return b;
-}
-
-Board inputBoardTwo()
-{
-	Board b;
-
-	//One dimentional array with the values in the initial order
-	int arr[9] = { 1, 8, 3, 5, 2, 4, 7, 6, 9 };
-	int num = 0;
-
-	//Two dimentional array to set initial values in board
-	for (int i = 0; i < 3; i++)
-	{
-		for (int j = 0; j < 3; j++)
-		{
-			b.board[i][j] = arr[num];
-			num++;
-		}
-	}
-	return b;
-}
-
-Board inputBoardThree()
-{
-	Board b;
-
-	//One dimentional array with the values in the initial order
-	int arr[9] = { 6, 7, 2, 1, 5, 9, 3, 4, 8 };
-	int num = 0;
-
-	//Two dimentional array to set initial values in board
-	for (int i = 0; i < 3; i++)
-	{
-		for (int j = 0; j < 3; j++)
-		{
-			b.board[i][j] = arr[num];
-			num++;
-		}
-	}
-	return b;
-}
-
 void gameLogic(Queue myQueue, BoardObject b)
 {
 	//Goal board
@@ -154,8 +158,6 @@ void gameLogic(Queue myQueue, BoardObject b)
 		parentObj = myQueue.head->boardObj;
 		Board parentBoard = parentObj.getBoard();
 
-		
-
 		//delete it from queue
 		myQueue.Delete();
 
@@ -178,19 +180,21 @@ void gameLogic(Queue myQueue, BoardObject b)
 
 				childObj.setLocation(currentMove + " " + prevLocation);
 				myQueue.Insert(childObj);
-				childObj.printObj();
+				
 
-				if (parentBoard == winningBoard)
+				if (childBoard == winningBoard)
 				{
-					BoardObject winningObject = myQueue.head->boardObj;
-
-					winningObject.printObj();
-					cout << "You win! Original Board" << endl;
+					childObj.printObj();
+					cout << "YOU WIN!! Original Board" << endl;
 					Board winningB = b.getBoard();
 					cout << winningB.toString();
 
 					win = true;
 					return;
+				}
+				else
+				{
+					childObj.printObj();
 				}
 
 				currentState++;
