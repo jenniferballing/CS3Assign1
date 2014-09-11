@@ -9,25 +9,31 @@ using namespace std;
 A00890700
 CS 3, Assignment 1: Solve the number cubes*/
 
-//Functions that return the appropriate starting boards
-Board inputBoards(int boardNumber);
-Board inputBoardOne();
-Board inputBoardTwo();
-Board inputBoardThree();
-Board inputRandomBoard();
-void gameLogic(Queue, BoardObject);
-BoardObject* returnBoards(Queue, Board);
+Board inputBoards(int boardNumber);     //Initialize the correct board
+void gameLogic(Queue, BoardObject);     //Run the game
+BoardObject* returnBoards(Queue, Board);//Create the 12 new instances of the board and return them
 
 int main(){
 
+	//Create an instance of a BoardObject
 	BoardObject obj;
 	
-	Board inputOne, inputTwo, inputThree, inputFour;
-	inputFour = inputBoards(4);
-	obj.setBoard(inputFour);
+	//Create instances of Boards
+	Board boardInput;
+
+	//Set the values in the Board
+	//There are 4 input boards given in the assignment
+	//The input board number is the argument 1, 2, 3 or 4(for a random board)
+	boardInput = inputBoards(1);
+	obj.setBoard(boardInput);
 	
+	//Create an instance of the queue
 	Queue myQueue;
+
+	//Insert the new object
 	myQueue.Insert(obj);
+
+	//Run the logic with the given object
 	gameLogic(myQueue, obj);
 	
 	return 0;
@@ -38,7 +44,15 @@ Board inputBoards(int boardNumber)
 	int arr[9];
 	if (boardNumber == 1)
 	{		
-		
+		arr[0] = 1;
+		arr[1] = 2;
+		arr[2] = 3;
+		arr[3] = 6;
+		arr[4] = 4;
+		arr[5] = 5;
+		arr[6] = 9;
+		arr[7] = 7;
+		arr[8] = 8;
 
 	}
 	else if (boardNumber == 2)
