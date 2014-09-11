@@ -14,7 +14,7 @@ Board inputBoardOne();
 Board inputBoardTwo();
 Board inputBoardThree();
 Board inputRandomBoard();
-void gameLogic(Queue);
+void gameLogic(Queue, BoardObject);
 BoardObject* returnBoards(Queue, Board);
 
 int main(){
@@ -26,7 +26,7 @@ int main(){
 	
 	Queue myQueue;
 	myQueue.Insert(obj);
-	gameLogic(myQueue);
+	gameLogic(myQueue, obj);
 	
 	return 0;
 }
@@ -35,32 +35,32 @@ BoardObject* returnBoards(Queue myQueue, Board b)
 {
 	Board temp;
 	temp = b;
-	BoardObject arr [12];
+	BoardObject *arr = new BoardObject [12];//BoardObject *arr = new BoardObject[12];
 	int num = 0;
 
 	for (int i = 0; i < 3; i++)
 	{
 		temp.rotateNorth(i);
 		arr[num].setBoard(temp);
-		arr[num].setLocation("North Col " + to_string(i));
+		arr[num].setLocation("=>North Col " + to_string(i));
 		temp = b;
 		num++;
 
 		temp.rotateSouth(i);
 		arr[num].setBoard(temp);
-		arr[num].setLocation("South Col" + to_string(i));
+		arr[num].setLocation("=>South Col " + to_string(i));
 		temp = b;
 		num++;
 
 		temp.rotateEast(i);
 		arr[num].setBoard(temp);
-		arr[num].setLocation("East Row" + to_string(i));
+		arr[num].setLocation("=>East Row " + to_string(i));
 		temp = b;
 		num++;
 
 		temp.rotateWest(i);
 		arr[num].setBoard(temp);
-		arr[num].setLocation("West Row" + to_string(i));
+		arr[num].setLocation("=>West Row " + to_string(i));
 		temp = b;
 		num++;
 	}
@@ -127,7 +127,7 @@ Board inputBoardThree()
 	return b;
 }
 
-void gameLogic(Queue myQueue)
+void gameLogic(Queue myQueue, BoardObject b)
 {
 	//Goal board
 	Board winningBoard;
@@ -139,11 +139,9 @@ void gameLogic(Queue myQueue)
 			winningBoard.board[i][j] = count;
 			count++;
 		}
-	}
+	}	
 
-	
-
-	int currentState = 0;
+	int currentState = 1;
 	int prevState = 0;
 	int num = 0;
 	
@@ -152,49 +150,52 @@ void gameLogic(Queue myQueue)
 	while (!win)
 	{
 		//get first obj
-		BoardObject parentObj;		
+		BoardObject parentObj;
 		parentObj = myQueue.head->boardObj;
 		Board parentBoard = parentObj.getBoard();
 
-		if (parentBoard == winningBoard)
-		{
-			Board board = myQueue.head->boardObj.getBoard();
-
-			cout << board.toString() << endl;
-			cout << "You win! YAY!" << endl;
-			win = true;
-			return;
-		}
 		
+
 		//delete it from queue
 		myQueue.Delete();
-		
+
 		//Get the rotations
 		BoardObject *boardObjArr = returnBoards(myQueue, parentBoard);
-
-		
-		
-
-		
-		for (int i = 0; i < 12; i++)
+		if (!win)
 		{
-			Board *childBoard = &boardObjArr[i].getBoard();
-			
-			
-			BoardObject childObj;
-			childObj.setBoard(*childBoard);
+			for (int i = 0; i < 12; i++)
+			{
+				BoardObject childObj;
 
-			//childObj.setBoard(childBoard);
-			childObj.setTier(prev);
-			childObj.setSequence(currentState);
-			
-			string prevLocation = parentObj.getLocation();
-			string *currentMove = &boardObjArr[i].getLocation(); 			
-			childObj.setLocation(*currentMove + " " + prevLocation);
-			childObj.printObj();
-			
-			currentState++;
-		}prev++;
+				Board childBoard = boardObjArr[i].getBoard();
+				childObj.setBoard(childBoard);
+
+				childObj.setTier(prev);
+				childObj.setSequence(currentState);
+
+				string prevLocation = parentObj.getLocation();
+				string currentMove = boardObjArr[i].getLocation();
+
+				childObj.setLocation(currentMove + " " + prevLocation);
+				myQueue.Insert(childObj);
+				childObj.printObj();
+
+				if (parentBoard == winningBoard)
+				{
+					BoardObject winningObject = myQueue.head->boardObj;
+
+					winningObject.printObj();
+					cout << "You win! Original Board" << endl;
+					Board winningB = b.getBoard();
+					cout << winningB.toString();
+
+					win = true;
+					return;
+				}
+
+				currentState++;
+			}prev++;
+		}		
 	}
 }
 
