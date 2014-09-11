@@ -19,13 +19,20 @@ int main(){
 	BoardObject obj;
 	
 	//Create instances of Boards
-	Board boardInput;
+	Board boardInput1, boardInput2, boardInput3, boardInputRand;
 
-	//Set the values in the Board
-	//There are 4 input boards given in the assignment
-	//The input board number is the argument 1, 2, 3 or 4(for a random board)
-	boardInput = inputBoards(1);
-	obj.setBoard(boardInput);
+	//Set the values in the Board	
+	boardInput1 = inputBoards(1);
+	obj.setBoard(boardInput1);
+
+	/*boardInput2 = inputBoards(2);
+	obj.setBoard(boardInput2);
+
+	boardInput3 = inputBoards(3);
+	obj.setBoard(boardInput3);
+
+	boardInputRand = inputBoards(4);
+	obj.setBoard(boardInputRand);*/
 	
 	//Create an instance of the queue
 	Queue myQueue;
